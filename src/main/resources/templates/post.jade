@@ -8,9 +8,12 @@ html(lang='ko')
         title Hello Spring Blog
         link(rel='stylesheet', href='/webjars/bootstrap/3.3.4/dist/css/bootstrap.min.css')
         link(rel='stylesheet', href='/webjars/origoni-startbootstrap-clean-blog/1.0.3/css/clean-blog.min.css')
+        link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css')
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js')
+        script.
+            hljs.initHighlightingOnLoad
         script(src='/webjars/jquery/3.2.1/dist/jquery.min.js')
         script(src='/webjars/bootstrap/3.3.4/dist/js/bootstrap.min.js')
-        script(src='https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js')
         style(media='screen').
             @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
             h1, h2, span, label, footer {
