@@ -1,0 +1,191 @@
+doctype html
+html(lang='ko')
+	head
+		meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+		meta(name='viewport', content='width=device-width')
+		title 작성하기
+		// include libraries(jQuery, bootstrap)
+		link(href='http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css', rel='stylesheet')
+		script(src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js')
+		script(src='http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js')
+		// include summernote css/js
+		link(href='http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css', rel='stylesheet')
+		script(src='http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js')
+		script(src='https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js')
+	style.
+		/* Space out content a bit */
+		body {
+		padding-top: 20px;
+		padding-bottom: 20px;
+		}
+		/* Everything but the jumbotron gets side spacing for mobile first views */
+		.header, .marketing, .footer {
+		padding-right: 15px;
+		padding-left: 15px;
+		}
+		/* Custom page header */
+		.header {
+		padding-bottom: 20px;
+		border-bottom: 1px solid #e5e5e5;
+		}
+		/* Make the masthead heading the same height as the navigation */
+		.header h3 {
+		margin-top: 0;
+		margin-bottom: 0;
+		line-height: 40px;
+		}
+		/* Custom page footer */
+		.footer {
+		padding-top: 19px;
+		color: #777;
+		border-top: 1px solid #e5e5e5;
+		}
+		/* Customize container */
+		@media ( min-width : 768px) {
+		.container {
+		max-width: 900px;
+		}
+		}
+		.container-narrow>hr {
+		margin: 30px 0;
+		}
+		/* Main marketing message and sign up button */
+		.jumbotron {
+		text-align: center;
+		border-bottom: 1px solid #e5e5e5;
+		}
+		.jumbotron .btn {
+		padding: 14px 24px;
+		font-size: 21px;
+		}
+		/* Supporting marketing content */
+		.marketing {
+		margin: 40px 0;
+		}
+		.marketing p+h4 {
+		margin-top: 28px;
+		}
+		/* Responsive: Portrait tablets and up */
+		@media screen and (min-width: 768px) {
+		/* Remove the padding we set earlier */
+		.header, .marketing, .footer {
+		padding-right: 0;
+		padding-left: 0;
+		}
+		/* Space out the masthead */
+		.header {
+		margin-bottom: 30px;
+		}
+		/* Remove the bottom border on the jumbotron for visual effect */
+		.jumbotron {
+		border-bottom: 0;
+		}
+		}
+	body
+			div
+				h2 #{post.getTitle()}
+			.container
+				.header.clearfix
+					nav
+						ul.nav.nav-pills.pull-right
+					h3.text-muted 작성하기
+				.row.marketing
+					.col-lg-12
+						.form-area
+							//
+								<c:if test="${post.id == 0 }"><c:url var = "actionUrl" value="/post/write"/></c:if>
+								<c:if test="${post.id != 0 }"><c:url var = "actionUrl" value="/post/${post.id}/edit"/></c:if>
+							form#articleForm(role='form', name='write', action='#{url}', method='post')
+								br(style='clear: both')
+								h3(style='margin-bottom: 25px;') Article Form
+								.form-group
+									input#subject.form-control(type='text', name='title', placeholder='subject', required='', value='#{post.getTitle()}')
+									input(type='hidden',name='beforetitle',value='#{post.getTitle()}')
+								.form-group
+									textarea#summernote.form-control(name='content', placeholder='content', maxlength='140', rows='7') #{post.getContent()}
+								.form-group(style='height: 30px;')
+									label.col-sm-2.control-label(for='category') Category
+									select#category(name='categoryName')
+										each category in categoryList
+											option(id='#{category.getName()}', value='#{category.getName()}') #{category.getName()}
+
+								button#submit.btn.btn-primary.pull-right(type='submit', name='submit') Submit Form
+								br
+								br
+								br
+							form#add_category(action='/category/add', method='post')
+								input.form-control(type='text', name='categoryName', placeholder='새로운 카테고리')
+								input(type='hidden', name='_csrf', value='${_csrf.token}')
+								button.form-control(type='submit') 추가
+
+		script(type='text/javascript').
+			$(document).ready(function() {
+			$('#summernote').summernote({
+			height: 300,
+			focus: true,
+			onImageUpload: function(files, editor, welEditable) {
+			for (var i = files.length - 1; i >= 0; i--) {
+			sendFile(files[i],editor, welEditable);
+			}
+			},
+			toolbar: [
+			['style', ['style']],
+			['font', ['bold', 'italic', 'underline', 'clear']],
+			['fontname', ['fontname']],
+			['color', ['color']],
+			['para', ['ul', 'ol', 'paragraph']],
+			['height', ['height']],
+			['table', ['table']],
+			['insert', ['link', 'picture', 'hr']],
+			['view', ['fullscreen', 'codeview']],
+			['help', ['help']],
+			['highlight', ['highlight']],
+			],
+			lang : 'ko-KR'
+			});
+			});
+			function sendFile(file, editor, welEditable) {
+			var data = new FormData();
+			data.append("Filedata",file);
+			$.ajax({
+			type: 'POST',
+			url: "${pageContext.request.contextPath}"+'/upload/image/',
+			data: data,
+			contentType: false,
+			processData: false,
+			dataType: 'JSON',
+			beforeSubmit: function(){
+			},
+			success: function(fileInfo){
+			if(fileInfo.result==-1){
+			alert("jpg, gif, png, bmp 확장자만 업로드 가능합니다.");
+			return false;
+			}
+			else if(fileInfo.result==-2){
+			alert("파일이 5MB를 초과하였습니다.");
+			return false;
+			}
+			else{
+			//정상적으로 업로드 될 경우 에디터에 이미지정보를 추가한다.
+			editor.insertImage(welEditable, fileInfo.imageurl);
+			$("img").addClass("img-responsive");
+			}
+			}
+			});
+			}
+		script(type='text/javascript').
+			$('#add_category').submit(function(event) {
+			var form = $(this);
+			$.ajax({
+			type : form.attr('method'),
+			url : form.attr('action'),
+			data : form.serialize()
+			}).done(function(c) {
+			$("#category").append("<option value=" + c.id + ">" + c.name + "</option>");
+			$("#category").val(c.id);
+			alert(c.name + " 카테고리가 추가되었습니다.");
+			}).fail(function() {
+			alert('error');
+			});
+			event.preventDefault();
+			});

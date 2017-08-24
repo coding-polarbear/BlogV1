@@ -1,0 +1,10 @@
+html(lang="ko")
+    head
+        meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+        title "ERROR!!"
+    body
+        script(type="text/javascript")
+            var message = '#{msg}';
+            var returnUrl = '#{url}';
+            alert(message);
+            document.location.href=returnUrl;
