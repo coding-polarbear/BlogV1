@@ -160,20 +160,21 @@ public class PostController {
     }
 
     @RequestMapping(value = "{title}/edit", method = RequestMethod.POST)
-    public String edit(@Valid Post post, BindingResult bindingResult, HttpSession session, HttpServletRequest httpServletReq) throws UnsupportedEncodingException {
+    public String edit(@Valid Post post,  BindingResult bindingResult, HttpSession session, HttpServletRequest httpServletReq) throws UnsupportedEncodingException {
 		/*if(bindingResult.hasErrors()) {
 			return "form";
 		}*/
         String categoryName = httpServletReq.getParameter("categoryName");
-        String beforetitle = httpServletReq.getParameter("beforetitle");
         System.out.println(categoryName);
-        Post save = postDao.findByTitle(beforetitle);
+        String id = httpServletReq.getParameter("postId");
+        Post save = postDao.findOne(id);
         save.setTitle(XSSFilter.filter(post.getTitle()));
+        System.out.println(save.toString());
         save.setCategory(categoryDao.findCategoryByName(categoryName));
         save.setAurthor(session.getAttribute("userid").toString());
         save.setRegDate(new Date());
         save.setContent(XSSFilter.filter(post.getContent()));
         postDao.save(save);
-        return "redirect:/post/view/" + URLEncoder.encode(post.getTitle(),"UTF-8");
+        return "redirect:/post/view/" + URLEncoder.encode(save.getTitle(),"UTF-8");
     }
 }
