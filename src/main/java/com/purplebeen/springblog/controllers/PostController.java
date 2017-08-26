@@ -6,6 +6,7 @@ import com.purplebeen.springblog.beans.Post;
 import com.purplebeen.springblog.repositories.CategoryDao;
 import com.purplebeen.springblog.repositories.CommentDao;
 import com.purplebeen.springblog.repositories.PostDao;
+import com.purplebeen.springblog.utills.MarkdownRenderer;
 import com.purplebeen.springblog.utills.XSSFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -108,6 +109,7 @@ public class PostController {
         title = URLDecoder.decode(title,"UTF-8");
         System.out.println("title = " + title);
         Post post = postDao.findByTitle(title);
+        post.setContent(MarkdownRenderer.render(post.getContent()));
         System.out.println(post.toString());
         List<Category> categoryList = categoryDao.findAll();
         model.addAttribute("session",session);

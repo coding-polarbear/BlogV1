@@ -9,9 +9,8 @@ html(lang='ko')
 		script(src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js')
 		script(src='http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js')
 		// include summernote css/js
-		link(href='http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css', rel='stylesheet')
-		script(src='http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js')
-		script(src='https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js')
+		link(rel="stylesheet", href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css")
+		script(src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js")
 	style.
 		/* Space out content a bit */
 		body {
@@ -102,7 +101,9 @@ html(lang='ko')
 									input#subject.form-control(type='text', name='title', placeholder='subject', required='', value='#{post.getTitle()}')
 									input(type='hidden',name='beforetitle',value='#{post.getTitle()}')
 								.form-group
-									textarea#summernote.form-control(name='content', placeholder='content', maxlength='140', rows='7') #{post.getContent()}
+									textarea#simplemde.form-control(name='content', placeholder='content', maxlength='140', rows='7') #{post.getContent()}
+									script.
+										var simplemde = new SimpleMDE({ element: $("#simplemde")[0] });
 								.form-group(style='height: 30px;')
 									label.col-sm-2.control-label(for='category') Category
 									select#category(name='categoryName')

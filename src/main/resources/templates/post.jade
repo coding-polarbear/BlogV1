@@ -11,12 +11,13 @@ html(lang='ko')
         link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css')
         script(src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js')
         script.
-            hljs.initHighlightingOnLoad
+            hljs.initHighlightingOnLoad();
+
         script(src='/webjars/jquery/3.2.1/dist/jquery.min.js')
         script(src='/webjars/bootstrap/3.3.4/dist/js/bootstrap.min.js')
         style(media='screen').
             @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
-            h1, h2, span, label, footer {
+            * {
                 font-family: "Noto Sans KR", sans-serif;
             }
     body
