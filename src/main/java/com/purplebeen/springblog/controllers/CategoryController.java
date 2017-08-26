@@ -44,7 +44,11 @@ public class CategoryController {
                                  @PageableDefault(sort = { "Id" }, direction = Sort.Direction.DESC, size = 5) Pageable pageable) throws UnsupportedEncodingException {
         System.out.println(categoryId);
         List<Post> postList = postDao.findByCategory(categoryDao.findOne(categoryId));
-        System.out.println(postList.get(0).toString());
+        if(postList == null) {
+            model.addAttribute("msg", "카테고리에 글이 없습니다");
+            model.addAttribute("url", "/post/show/list");
+            return "Error";
+        }
 
         Page<Post> postPage = new PageImpl<Post>(postList,pageable,postList.size());
         List<Category> categoryList = categoryDao.findAll();
