@@ -117,6 +117,8 @@ html(lang='ko')
 								input.form-control(type='text', name='categoryName', placeholder='새로운 카테고리')
 								input(type='hidden', name='_csrf', value='${_csrf.token}')
 								button.form-control(type='submit') 추가
+							a(href="/upload/images", target="_blank" )
+								button.form-control 이미지 업로드
 
 		script(type='text/javascript').
 			$(document).ready(function() {

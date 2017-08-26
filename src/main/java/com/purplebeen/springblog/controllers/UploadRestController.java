@@ -21,9 +21,7 @@ public class UploadRestController {
     public String uploadImage(@RequestParam("multiFile") MultipartFile multipartFile, HttpSession httpSession, Model model) throws IOException {
         if(multipartFile != null & !(multipartFile.getOriginalFilename().toString().equals(""))) {
             String originalFilename = multipartFile.getOriginalFilename();
-            System.out.println(originalFilename);
             String extension = originalFilename.substring(originalFilename.lastIndexOf(".")+1).toLowerCase();
-            System.out.println(extension);
 
 //            if(!(extension.equals("jpg")) || !(extension.equals("gif")) || !(extension.equals("bmp")) || !(extension.equals("png"))) {
 //                return "Error : file 확장자가 올바르지 않습니다";
@@ -44,9 +42,7 @@ public class UploadRestController {
             destinationFile.getParentFile().mkdirs();
             multipartFile.transferTo(destinationFile);
 
-            String imageurl = destinationFile.getAbsolutePath();
-
-            model.addAttribute("url",imageurl);
+            String imageurl = "/upload/image/" + destinationFileName;
             return imageurl;
         } else {
             return "Error : 파일이 비어있습니다";
