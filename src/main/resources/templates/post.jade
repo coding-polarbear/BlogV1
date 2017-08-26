@@ -98,7 +98,7 @@ html(lang='ko')
                         if(session.getAttribute("userid") != null)
                             hr(height='2px')
                             form(action='/post/write/comment', method='post')
-                                input(type='hidden', name='title', value='#{post.getTitle()}')
+                                input(type='hidden', name='postId', value='#{post.getId()}')
                                 .form-group
                                     .col-sm-10
                                         textarea#addComment.form-control(name='content', row='5')

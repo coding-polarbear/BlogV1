@@ -7,6 +7,7 @@ import com.purplebeen.springblog.repositories.CategoryDao;
 import com.purplebeen.springblog.repositories.CommentDao;
 import com.purplebeen.springblog.repositories.PostDao;
 import com.purplebeen.springblog.utills.MarkdownRenderer;
+import com.purplebeen.springblog.utills.UUIDUtill;
 import com.purplebeen.springblog.utills.XSSFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -60,6 +61,7 @@ public class PostController {
     @RequestMapping(value="/write", method = RequestMethod.POST)
     public String write(Post post,HttpSession session, HttpServletRequest httpServletReq) throws UnsupportedEncodingException {
         String categoryName = httpServletReq.getParameter("categoryName");
+        post.setId(UUIDUtill.getUUID());
         post.setCategory(categoryDao.findOne(categoryName));
         post.setRegDate(new Date());
         post.setAurthor(session.getAttribute("userid").toString());
@@ -72,17 +74,18 @@ public class PostController {
 
     @RequestMapping(value="/write/comment", method=RequestMethod.POST)
     public String commentWrite(HttpSession session, HttpServletRequest httpServletRequest, Comment comment, Model model) throws UnsupportedEncodingException {
-        String postTitle = httpServletRequest.getParameter("title");
+        String postId = httpServletRequest.getParameter("postId");
+        Post post = null;
         if(!(comment.getContent().equals(""))) {
             comment.setName(session.getAttribute("userid").toString());
             comment.setContent(XSSFilter.filter(comment.getContent()));
-            Post post = postDao.findOne(postTitle);
+            post = postDao.findOne(postId);
             post.getCommentList().add(comment);
             postDao.save(post);
-            return "redirect:/post/view/"+URLEncoder.encode(postTitle,"utf-8");
+            return "redirect:/post/view/"+URLEncoder.encode(post.getTitle(),"utf-8");
         } else {
             model.addAttribute("msg","댓글 내용을 입력해주세요!");
-            model.addAttribute("url","/post/"+URLEncoder.encode(postTitle,"utf-8"));
+            model.addAttribute("url","/post/"+URLEncoder.encode(post.getTitle(),"utf-8"));
             return "Error";
         }
     }

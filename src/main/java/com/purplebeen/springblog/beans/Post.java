@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Post {
     @Id
+    private String id;
     private String title;
     private Category category;
     private String content;
