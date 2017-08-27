@@ -84,7 +84,7 @@ html(lang='ko')
                         if(!postPage.isFirst())
                             li.previous
                                 a(href='?page=#{postPage.number-1}') ← Newer Posts
-                        if(!postPage.isLast)
+                        if(!postPage.isLast())
                             li.next
                                 a(href='?page=#{postPage.number+1}') Older Posts →
         hr

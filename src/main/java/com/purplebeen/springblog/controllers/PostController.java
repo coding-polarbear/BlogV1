@@ -166,7 +166,7 @@ public class PostController {
 		}*/
         String categoryName = httpServletReq.getParameter("categoryName");
         System.out.println(categoryName);
-        String id = httpServletReq.getParameter("postId");
+        String id = httpServletReq.getParameter("id");
         Post save = postDao.findOne(id);
         save.setTitle(XSSFilter.filter(post.getTitle()));
         System.out.println(save.toString());
@@ -175,6 +175,6 @@ public class PostController {
         save.setRegDate(new Date());
         save.setContent(XSSFilter.filter(post.getContent()));
         postDao.save(save);
-        return "redirect:/post/view/" + URLEncoder.encode(save.getTitle(),"UTF-8");
+        return "redirect:/post/view/" + URLEncoder.encode(post.getTitle(),"UTF-8");
     }
 }
