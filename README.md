@@ -6,7 +6,8 @@ Spring Boot, JAVA8, MongoDB, Jade4j를 이용해서 만든 블로그입니다.
   * JAVA 8 (Modern JAVA)
   * Mongo DB (With spring boot starter)
   * Jade4j for Spring Boot
+  * markdown editor
   
 * 향후 지원할 내용
-  * markdown editor
+
   * JSON RSS REST API
