@@ -38,9 +38,14 @@ public class CategoryController {
 
     @RequestMapping(value="/category/{categoryId}", method=RequestMethod.GET)
     public String categorySearch(@PathVariable String categoryId, Model model, HttpSession session,
-                                 @PageableDefault(sort = { "Id" }, direction = Sort.Direction.DESC, size = 5) Pageable pageable) throws UnsupportedEncodingException {
+                                 @PageableDefault(sort = { "Id" }, direction = Sort.Direction.DESC, size = 5) Pageable pageable,
+                                 @RequestParam(value = "page", required = false, defaultValue = "0") int pageNum) throws UnsupportedEncodingException {
         System.out.println(categoryId);
         List<Post> postList = postDao.findByCategory(categoryDao.findOne(categoryId));
+        Sort sort = new Sort(Sort.Direction.DESC, "regDate");
+        PageRequest pageRequest = new PageRequest(pageNum,5,sort);
+        Page<Post> page = postDao.findAll(pageRequest);
+
         if(postList == null) {
             model.addAttribute("msg", "카테고리에 글이 없습니다");
             model.addAttribute("url", "/post/show/list");
