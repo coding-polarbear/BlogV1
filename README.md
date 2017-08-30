@@ -1,13 +1,10 @@
-# SpringBlog
-Spring Boot, JAVA8, MongoDB, Jade4j를 이용해서 만든 블로그입니다.
-
-* 사용기술
-  * Spring Boot 1.5
-  * JAVA 8 (Modern JAVA)
-  * Mongo DB (With spring boot starter)
-  * Jade4j for Spring Boot
-  * markdown editor
-  
-* 향후 지원할 내용
-
-  * JSON RSS REST API
+# **Spring Blog**
+## 2017.08.30
+* 스프링 부트 1.5
+* 스프링 프레임워크 4
+* 자바 8(모던 자바)
+* 마크다운 문법 적용
+* simplemde 에디터 적용
+* jade4j 템플릿 엔진 사용
+* MongoDB 사용 (Mongo Repository 응용)
+* highlighter js 적용
