@@ -65,8 +65,6 @@ public class PostController {
         post.setCategory(categoryDao.findOne(categoryName));
         post.setRegDate(new Date());
         post.setAurthor(session.getAttribute("userid").toString());
-        post.setTitle(XSSFilter.filter(post.getTitle()));
-        post.setContent(XSSFilter.filter(post.getContent()));
         postDao.save(post);
         return "redirect:/post/view/" + URLEncoder.encode(post.getTitle(),"UTF-8");
     }
@@ -168,12 +166,12 @@ public class PostController {
         System.out.println(categoryName);
         String id = httpServletReq.getParameter("id");
         Post save = postDao.findOne(id);
-        save.setTitle(XSSFilter.filter(post.getTitle()));
         System.out.println(save.toString());
+        save.setTitle(post.getTitle());
+        save.setContent(post.getContent());
         save.setCategory(categoryDao.findCategoryByName(categoryName));
         save.setAurthor(session.getAttribute("userid").toString());
         save.setRegDate(new Date());
-        save.setContent(XSSFilter.filter(post.getContent()));
         postDao.save(save);
         return "redirect:/post/view/" + URLEncoder.encode(post.getTitle(),"UTF-8");
     }
