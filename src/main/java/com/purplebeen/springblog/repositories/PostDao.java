@@ -14,5 +14,8 @@ import java.util.List;
 
 public interface PostDao extends MongoRepository<Post,String> {
     public Post findByTitle(String title);
+
     public List<Post> findByCategory(Category category);
+
+    public Page<Post> findAllByCategory(Category category, Pageable pageable);
 }

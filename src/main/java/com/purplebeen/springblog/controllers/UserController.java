@@ -68,7 +68,7 @@ public class UserController {
             url = "redirect:/post/show/list";
         } catch(IndexOutOfBoundsException e) {
             model.addAttribute("msg", "아이디 또는 비밀번호가 일치하지 않습니다.");
-            model.addAttribute("url", "/user/loginForm");
+            model.addAttribute("url", "/user/login");
             url = "Error";
         }
         return url;

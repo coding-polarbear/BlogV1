@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
@@ -105,11 +106,11 @@ public class PostController {
         System.out.println("in the list method");
         return "blog";
     }
-    @RequestMapping("/view/{title}")
-    public String view(Model model, @PathVariable String title, HttpSession session) throws UnsupportedEncodingException {
-        title = URLDecoder.decode(title,"UTF-8");
-        System.out.println("title = " + title);
-        Post post = postDao.findByTitle(title);
+    @RequestMapping("/view/{id}")
+    public String view(Model model, @PathVariable String id, HttpSession session) throws UnsupportedEncodingException {
+        id = URLDecoder.decode(id,"UTF-8");
+        System.out.println("title = " + id);
+        Post post = postDao.findByTitle(id);
         post.setContent(MarkdownRenderer.render(post.getContent()));
         System.out.println(post.toString());
         List<Category> categoryList = categoryDao.findAll();
@@ -126,14 +127,14 @@ public class PostController {
 
     @RequestMapping("/{title}/delete")
     public String delete(@PathVariable String title, HttpSession session, Model model) throws UnsupportedEncodingException {
-        title = URLDecoder.decode(title,"UTF-8");
+//        title = URLDecoder.decode(title,"UTF-8");
         Post post = postDao.findByTitle(title);
         if(post.getAurthor() != null && post.getAurthor().equals(session.getAttribute("userid"))) {
             postDao.delete(post);;
             return "redirect:/post/show/list";
         } else {
             model.addAttribute("msg","권한이 없습니다!");
-            model.addAttribute("url","/post/list");
+            model.addAttribute("url","/post/show/list");
             return "Error";
         }
 
@@ -141,27 +142,28 @@ public class PostController {
 
     @RequestMapping(value = "/{title}/edit", method = RequestMethod.GET)
     public String editor(Model model, @PathVariable String title,HttpSession session) throws UnsupportedEncodingException {
-        title = URLDecoder.decode(title,"UTF-8");
+//        title = URLDecoder.decode(title,"UTF-8");
         System.out.println(title);
         Post post = postDao.findByTitle(title);
         if(post.getAurthor() != null && post.getAurthor().equals(session.getAttribute("userid"))) {
             model.addAttribute("post", post);
             List<Category> categoryList = categoryDao.findAll();
             model.addAttribute("categoryList",categoryList);
-            model.addAttribute("url","/post/"+ URLEncoder.encode(post.getTitle(),"UTF-8")+"/edit");
+            model.addAttribute("url","/post/"+ post.getTitle() +"/edit");
             return "form";
         } else {
             model.addAttribute("msg", "권한이 없습니다!");
-            model.addAttribute("url","/post/list");
+            model.addAttribute("url","/post/show/list");
             return "Error";
         }
     }
 
     @RequestMapping(value = "{title}/edit", method = RequestMethod.POST)
-    public String edit(@Valid Post post,  BindingResult bindingResult, HttpSession session, HttpServletRequest httpServletReq) throws UnsupportedEncodingException {
+    public String edit(@Valid Post post, BindingResult bindingResult, HttpSession session, HttpServletRequest httpServletReq) throws UnsupportedEncodingException {
 		/*if(bindingResult.hasErrors()) {
 			return "form";
 		}*/
+
         String categoryName = httpServletReq.getParameter("categoryName");
         System.out.println(categoryName);
         String id = httpServletReq.getParameter("id");
@@ -171,8 +173,11 @@ public class PostController {
         save.setContent(post.getContent());
         save.setCategory(categoryDao.findCategoryByName(categoryName));
         save.setAurthor(session.getAttribute("userid").toString());
-        save.setRegDate(new Date());
+//        save.setRegDate(new Date());
+        System.out.println(save.getTitle());
         postDao.save(save);
-        return "redirect:/post/view/" + URLEncoder.encode(post.getTitle(),"UTF-8");
+
+        String url= URLEncoder.encode(save.getTitle(),"UTF-8");
+        return "redirect:/post/view/" + url;
     }
 }
