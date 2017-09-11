@@ -55,7 +55,7 @@ public class PostController {
         } else {
             model.addAttribute("msg", "로그인 해 주세요!");
             model.addAttribute("url","/post/show/list");
-            return "Error";
+            return "alertform";
         }
     }
 
@@ -85,7 +85,7 @@ public class PostController {
         } else {
             model.addAttribute("msg","댓글 내용을 입력해주세요!");
             model.addAttribute("url","/post/"+URLEncoder.encode(post.getTitle(),"utf-8"));
-            return "Error";
+            return "alertform";
         }
     }
 
@@ -135,7 +135,7 @@ public class PostController {
         } else {
             model.addAttribute("msg","권한이 없습니다!");
             model.addAttribute("url","/post/show/list");
-            return "Error";
+            return "alertform";
         }
 
     }
@@ -154,7 +154,7 @@ public class PostController {
         } else {
             model.addAttribute("msg", "권한이 없습니다!");
             model.addAttribute("url","/post/show/list");
-            return "Error";
+            return "alertform";
         }
     }
 
