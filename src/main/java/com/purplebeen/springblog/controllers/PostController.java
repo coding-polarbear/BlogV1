@@ -110,10 +110,8 @@ public class PostController {
     @RequestMapping("/view/{id}")
     public String view(Model model, @PathVariable String id, HttpSession session) throws UnsupportedEncodingException {
         id = URLDecoder.decode(id,"UTF-8");
-        System.out.println("title = " + id);
         Post post = postDao.findByTitle(id);
         post.setContent(MarkdownRenderer.render(post.getContent()));
-        System.out.println(post.toString());
         List<Category> categoryList = categoryDao.findAll();
         model.addAttribute("session",session);
         model.addAttribute("categoryList",categoryList);
@@ -144,7 +142,6 @@ public class PostController {
     @RequestMapping(value = "/{title}/edit", method = RequestMethod.GET)
     public String editor(Model model, @PathVariable String title,HttpSession session) throws UnsupportedEncodingException {
         title = URLDecoder.decode(title,"UTF-8");
-        System.out.println(title);
         Post post = postDao.findByTitle(title);
         if(post.getAurthor() != null && post.getAurthor().equals(session.getAttribute("userid"))) {
             model.addAttribute("post", post);
@@ -162,7 +159,6 @@ public class PostController {
     @RequestMapping(value = "{title}/edit", method = RequestMethod.POST)
     public String edit(@Valid Post post, HttpSession session, HttpServletRequest httpServletReq) throws UnsupportedEncodingException {
         String categoryName = httpServletReq.getParameter("categoryName");
-        System.out.println(categoryName);
         String id = httpServletReq.getParameter("id");
 
         Post save = postDao.findOne(id);
