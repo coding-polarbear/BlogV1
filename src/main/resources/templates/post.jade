@@ -81,9 +81,9 @@ html(lang='ko')
                         !{post.getContent()}
             if(session.getAttribute("userid") != null)
                 .pull-right
-                    a(href='/post/#{post.getTitle()}/edit')
+                    a(href='/post/#{post.getUrl()}/edit')
                         button.btn.btn-warning(type='button',style="margin-right:10px;") Edit
-                    a(href='/post/#{post.getTitle()}/delete')
+                    a(href='/post/#{post.getUrl()}/delete')
                         button.btn.btn-danger(type='button',style="margin-right:50px;") Delete
 
             .container

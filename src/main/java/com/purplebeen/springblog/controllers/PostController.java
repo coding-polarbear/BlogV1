@@ -63,11 +63,12 @@ public class PostController {
     public String write(Post post,HttpSession session, HttpServletRequest httpServletReq) throws UnsupportedEncodingException {
         String categoryName = httpServletReq.getParameter("categoryName");
         post.setId(UUIDUtill.getUUID());
+        post.setUrl(URLEncoder.encode(post.getTitle(),"UTF-8"));
         post.setCategory(categoryDao.findOne(categoryName));
         post.setRegDate(new Date());
         post.setAurthor(session.getAttribute("userid").toString());
         postDao.save(post);
-        return "redirect:/post/view/" + URLEncoder.encode(post.getTitle(),"UTF-8");
+        return "redirect:/post/view/" + post.getUrl();
     }
 
 
@@ -81,7 +82,7 @@ public class PostController {
             post = postDao.findOne(postId);
             post.getCommentList().add(comment);
             postDao.save(post);
-            return "redirect:/post/view/"+URLEncoder.encode(post.getTitle(),"utf-8");
+            return "redirect:/post/view/" + post.getUrl();
         } else {
             model.addAttribute("msg","댓글 내용을 입력해주세요!");
             model.addAttribute("url","/post/"+URLEncoder.encode(post.getTitle(),"utf-8"));
@@ -127,7 +128,7 @@ public class PostController {
 
     @RequestMapping("/{title}/delete")
     public String delete(@PathVariable String title, HttpSession session, Model model) throws UnsupportedEncodingException {
-//        title = URLDecoder.decode(title,"UTF-8");
+        title = URLDecoder.decode(title,"UTF-8");
         Post post = postDao.findByTitle(title);
         if(post.getAurthor() != null && post.getAurthor().equals(session.getAttribute("userid"))) {
             postDao.delete(post);;
@@ -142,14 +143,14 @@ public class PostController {
 
     @RequestMapping(value = "/{title}/edit", method = RequestMethod.GET)
     public String editor(Model model, @PathVariable String title,HttpSession session) throws UnsupportedEncodingException {
-//        title = URLDecoder.decode(title,"UTF-8");
+        title = URLDecoder.decode(title,"UTF-8");
         System.out.println(title);
         Post post = postDao.findByTitle(title);
         if(post.getAurthor() != null && post.getAurthor().equals(session.getAttribute("userid"))) {
             model.addAttribute("post", post);
             List<Category> categoryList = categoryDao.findAll();
             model.addAttribute("categoryList",categoryList);
-            model.addAttribute("url","/post/"+ post.getTitle() +"/edit");
+            model.addAttribute("url","/post/"+ post.getUrl() +"/edit");
             return "form";
         } else {
             model.addAttribute("msg", "권한이 없습니다!");
@@ -159,25 +160,19 @@ public class PostController {
     }
 
     @RequestMapping(value = "{title}/edit", method = RequestMethod.POST)
-    public String edit(@Valid Post post, BindingResult bindingResult, HttpSession session, HttpServletRequest httpServletReq) throws UnsupportedEncodingException {
-		/*if(bindingResult.hasErrors()) {
-			return "form";
-		}*/
-
+    public String edit(@Valid Post post, HttpSession session, HttpServletRequest httpServletReq) throws UnsupportedEncodingException {
         String categoryName = httpServletReq.getParameter("categoryName");
         System.out.println(categoryName);
         String id = httpServletReq.getParameter("id");
+
         Post save = postDao.findOne(id);
-        System.out.println(save.toString());
         save.setTitle(post.getTitle());
+        save.setUrl(URLEncoder.encode(post.getTitle(),"UTF-8"));
         save.setContent(post.getContent());
         save.setCategory(categoryDao.findCategoryByName(categoryName));
         save.setAurthor(session.getAttribute("userid").toString());
-//        save.setRegDate(new Date());
-        System.out.println(save.getTitle());
         postDao.save(save);
 
-        String url= URLEncoder.encode(save.getTitle(),"UTF-8");
-        return "redirect:/post/view/" + url;
+        return "redirect:/post/view/" + save.getUrl();
     }
 }

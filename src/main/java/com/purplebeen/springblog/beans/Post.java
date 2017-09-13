@@ -18,6 +18,7 @@ public class Post {
     @Id
     private String id;
     private String title;
+    private String url;
     private Category category;
     private String content;
     private Date regDate;

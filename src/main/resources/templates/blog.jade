@@ -71,7 +71,7 @@ html(lang='ko')
                 .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
                     for post in postPage.getContent()
                         .post-preview
-                            a(href='/post/view/#{post.getTitle()}')
+                            a(href='/post/view/#{post.getUrl()}')
                                 h2.post-title
                                     | #{post.getTitle()}
                             p#label.post-meta
