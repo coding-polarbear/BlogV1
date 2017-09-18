@@ -78,6 +78,7 @@ html(lang='ko')
                                 | Posted by
                                 a(href='#') #{post.getAurthor()}
                                 |  on #{post.getRegDate()} ,
+                                a(href="/category/#{post.getCategory().getName()}") #{post.getCategory().getName()}
                         hr
                     // Pager
                     ul.pager
