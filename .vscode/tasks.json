@@ -1,0 +1,22 @@
+{
+    "version": "0.1.0",
+    "isShellCommand": true,
+    "isBackground": true,
+    "showOutput": "always",
+    "suppressTaskName": true,
+    "tasks": [
+        {
+            "taskName": "build",
+            "command": "c:/Program Files/Java/jdk1.8.0_121/bin/javac.exe",
+            "args": ["-g", "${file}"],
+            "isBuildCommand": false
+        },
+        {
+            "taskName": "build-gradle",
+            "command": "D:/development/JAVA/SpringBlog/gradlew.bat",
+            "showOutput": "always",
+            "args": ["bootRun"],
+            "isBuildCommand": true
+        }
+    ]
+}

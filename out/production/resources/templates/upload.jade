@@ -1,0 +1,9 @@
+doctype html
+html
+    head
+        title 이미지 업로드
+    body
+        p 업로드할 이미지를 선택하세요
+        form(action="/upload/image",method="POST", enctype="multipart/form-data")
+            input(type="file",name="multiFile",accept="image/*")
+            input(type="submit",value="파일전송")
