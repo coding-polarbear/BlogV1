@@ -39,6 +39,10 @@ html
                 background: #fafafa;
                 position: relative;
             }
+            button a {
+                color: #fafafa;
+                text-decoration:none;
+            }
             @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
             * {
                 font-family: "Noto Sans KR", sans-serif;
@@ -54,7 +58,7 @@ html
                     // Navigation. We hide it in small screens.
                     nav.mdl-navigation.mdl-layout--large-screen-only
                         a.mdl-navigation__link(href='') About me
-                        a.mdl-navigation__link(href='') Write
+                        a.mdl-navigation__link(href='/post/write') Write
                         a.mdl-navigation__link(href='') 회원가입
                         if(session.getAttribute("userid") != null)
                             a.mdl-navigation__link(href="/user/logout") 로그아웃
@@ -78,3 +82,10 @@ html
                             .mdl-card__actions.mdl-card--border
                                 a.mdl-button.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect(href="/post/view/#{post.getUrl()}")
                                     | 자세히 보기
+                hr
+                if(!postPage.isFirst())
+                    button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(style="height:60px; margin:10px;")
+                        a(href='?page=#{postPage.number-1}') ← Newer Posts
+                if(!postPage.isLast())        
+                    button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--accent(style="height:60px; margin:10px; float: right;")
+                        a(href='?page=#{postPage.number+1}') Older Posts →             
