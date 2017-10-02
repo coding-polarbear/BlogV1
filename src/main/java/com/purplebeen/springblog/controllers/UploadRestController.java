@@ -27,12 +27,9 @@ public class UploadRestController {
             String extension = originalFilename.substring(originalFilename.lastIndexOf(".")+1).toLowerCase();
 
 
-            String webappRoot = servletContext.getRealPath("/");
-            String relativeFolder = "resources" + File.separator
-                    + "images" + File.separator;
-            String path = webappRoot + relativeFolder;
+            String webappRoot = servletContext.getRealPath("resources/images");
 
-            File file = new File(path);
+            File file = new File(webappRoot);
             if(!file.exists()) {
                 file.mkdirs();
             }
@@ -40,7 +37,7 @@ public class UploadRestController {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
             String today = formatter.format(new Date());
             String modifyName = today + "-" + originalFilename;
-            String destinationFileName = path + modifyName;
+            String destinationFileName = webappRoot + modifyName;
             File destinationFile = new File(destinationFileName);
 
             multipartFile.transferTo(destinationFile);
