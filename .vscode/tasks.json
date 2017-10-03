@@ -7,13 +7,13 @@
     "tasks": [
         {
             "taskName": "build",
-            "command": "c:/Program Files/Java/jdk1.8.0_121/bin/javac.exe",
+            "command": "javac",
             "args": ["-g", "${file}"],
             "isBuildCommand": false
         },
         {
             "taskName": "build-gradle",
-            "command": "D:/development/JAVA/SpringBlog/gradlew.bat",
+            "command": "gradle",
             "showOutput": "always",
             "args": ["bootRun"],
             "isBuildCommand": true

@@ -1,0 +1,103 @@
+doctype html
+html(lang='ko')
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+        title Hello Spring Blog
+        link(rel='stylesheet', href='/webjars/bootstrap/3.3.4/dist/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/webjars/origoni-startbootstrap-clean-blog/1.0.3/css/clean-blog.min.css')
+        script(src='/webjars/jquery/3.2.1/dist/jquery.min.js')
+        script(src='/webjars/bootstrap/3.3.4/dist/js/bootstrap.min.js')
+        style(media='screen').
+            @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+            h1,h2,span,label,footer,input {
+                font-family: "Noto Sans KR", sans-serif;
+            }
+
+    body
+        script.
+            window.onload = function () {
+                $("img").addClass("img-responsive");
+            }
+        // Navigation
+        nav.navbar.navbar-default.navbar-custom.navbar-fixed-top
+            .container-fluid
+                // Brand and toggle get grouped for better mobile display
+                .navbar-header.page-scroll
+                    button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+                        span.sr-only Toggle navigation
+                        span.icon-bar
+                        span.icon-bar
+                        span.icon-bar
+                    a.navbar-brand(href='/post/show/list') purplebeen's story
+                // Collect the nav links, forms, and other content for toggling
+                #bs-example-navbar-collapse-1.collapse.navbar-collapse
+                    ul.nav.navbar-nav.navbar-right
+                        li
+                            a(href='/post/show/list') Home
+                        li
+                            a(href='/post/write') Write
+                        li
+                            a(href='/user/resume') 회원가입
+                        li.dropdown(role='presentation')
+                            a.dropdown-toggle(data-toggle='dropdown', href='#', role='button', aria-haspopup='true', aria-expanded='false')
+                                | 카테고리
+                                span.caret
+                            ul.dropdown-menu(style='background:#000000')
+                                for category in categoryList
+                                    li
+                                        a(href='/category/#{category.getName()}') #{category.getName()}
+                        if(session.getAttribute("userid") != null)
+                            li
+                                a(href="/user/logout") 로그아웃
+                        else
+                            li
+                                a(href="/user/login") 로그인
+                // /.navbar-collapse
+            // /.container
+        // Page Header
+        // Set your background image for this header on the line below.
+        header.intro-header(style="background-image: url('https://images2.alphacoders.com/698/698137.jpg')")
+            .container
+                .row
+                    .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
+                        .post-heading
+                            h1 Login
+        // Post Content
+        article
+            .container
+                .row
+                    .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
+                        form(action='/user/login', method='post')
+                            .form-group
+                                label(for='id') 아이디 :
+                                input#id.form-control(type='text', name='username')
+                            .form-group
+                                label(for='password') 비밀번호 :
+                                input#password.form-control(type='password', name='password')
+                            input.btn.btn-success(type='submit', value='login')
+        // Footer
+        footer
+            .container
+                .row
+                    .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
+                        ul.list-inline.text-center
+                            li
+                                a(href='#')
+                                    span.fa-stack.fa-lg
+                                        i.fa.fa-circle.fa-stack-2x
+                                        i.fa.fa-twitter.fa-stack-1x.fa-inverse
+                            li
+                                a(href='#')
+                                    span.fa-stack.fa-lg
+                                        i.fa.fa-circle.fa-stack-2x
+                                        i.fa.fa-facebook.fa-stack-1x.fa-inverse
+                            li
+                                a(href='https://github.com/purplebeen')
+                                    span.fa-stack.fa-lg
+                                        i.fa.fa-circle.fa-stack-2x
+                                        i.fa.fa-github.fa-stack-1x.fa-inverse
+                        p.copyright.text-muted Copyright © Your 2017 purplebeen corporation
+

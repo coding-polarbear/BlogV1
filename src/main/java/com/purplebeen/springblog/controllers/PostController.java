@@ -90,6 +90,13 @@ public class PostController {
         }
     }
 
+    @RequestMapping("/aboutme")
+    public String getAbout(Model model) {
+        List<Category> categoryList = categoryDao.findAll();
+        model.addAttribute("categoryList", categoryList);        
+        return "aboutme";
+    }
+
     @RequestMapping("/show/list")
     public String list(Model model,HttpSession session,
                        @RequestParam(value="category", required=false, defaultValue="0") int categoryId,

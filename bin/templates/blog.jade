@@ -43,10 +43,6 @@ html
                 color: #fafafa;
                 text-decoration:none;
             }
-            span a {
-                color: #fafafa;
-                text-decoration:none;
-            }
             @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
             * {
                 font-family: "Noto Sans KR", sans-serif;
@@ -56,13 +52,12 @@ html
             header.mdl-layout__header
                 .mdl-layout__header-row
                     // Title
-                    span.mdl-layout-title 
-                        a(href="/") Polarbear의 개발블로그
+                    span.mdl-layout-title Polarbear의 개발블로그
                     // Add spacer, to align navigation to the right
                     .mdl-layout-spacer
                     // Navigation. We hide it in small screens.
                     nav.mdl-navigation.mdl-layout--large-screen-only
-                        a.mdl-navigation__link(href='/post/aboutme') About me
+                        a.mdl-navigation__link(href='') About me
                         a.mdl-navigation__link(href='/post/write') Write
                         a.mdl-navigation__link(href='') 회원가입
                         if(session.getAttribute("userid") != null)
@@ -72,13 +67,6 @@ html
             .mdl-layout__drawer
                 span.mdl-layout-title Title
                 nav.mdl-navigation
-                    a.mdl-navigation__link(href='/post/aboutme') About me
-                    a.mdl-navigation__link(href='/post/write') Write
-                    a.mdl-navigation__link(href='') 회원가입
-                    if(session.getAttribute("userid") != null)
-                        a.mdl-navigation__link(href="/user/logout") 로그아웃
-                    else
-                        a.mdl-navigation__link(href="/user/login") 로그인
                     for category in categoryList
                         a.mdl-navigation__link(href='/category/#{category.getName()}') #{category.getName()}
             main.mdl-layout__content
