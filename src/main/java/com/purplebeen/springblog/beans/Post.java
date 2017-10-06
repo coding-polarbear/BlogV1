@@ -21,6 +21,7 @@ public class Post {
     private String url;
     private Category category;
     private String content;
+    private String imageUrl;
     private Date regDate;
     private String aurthor;
     private List<Comment> commentList = new ArrayList<>();

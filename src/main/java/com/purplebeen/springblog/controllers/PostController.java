@@ -67,6 +67,8 @@ public class PostController {
         post.setCategory(categoryDao.findOne(categoryName));
         post.setRegDate(new Date());
         post.setAurthor(session.getAttribute("userid").toString());
+        if(post.getImageUrl().equals(""))
+            post.setImageUrl("https://clsimplex.com/images/releases/headers/quality-code.jpg");
         postDao.save(post);
         return "redirect:/post/view/" + post.getUrl();
     }
@@ -111,7 +113,6 @@ public class PostController {
         model.addAttribute("postPage", postPage);
         model.addAttribute("categoryId", categoryId);
         model.addAttribute("session",session);
-        System.out.println("in the list method");
         return "blog";
     }
     @RequestMapping("/view/{id}")

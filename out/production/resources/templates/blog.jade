@@ -39,6 +39,10 @@ html
                 background: #fafafa;
                 position: relative;
             }
+            #title {
+                color: gray;
+                text-decoration: none;
+            }
             button a {
                 color: #fafafa;
                 text-decoration:none;
@@ -57,20 +61,21 @@ html
                 .mdl-layout__header-row
                     // Title
                     span.mdl-layout-title 
-                        a(href="/") Polarbear의 개발블로그
+                        a(href="/") purplebeen's story
                     // Add spacer, to align navigation to the right
                     .mdl-layout-spacer
                     // Navigation. We hide it in small screens.
                     nav.mdl-navigation.mdl-layout--large-screen-only
                         a.mdl-navigation__link(href='/post/aboutme') About me
                         a.mdl-navigation__link(href='/post/write') Write
-                        a.mdl-navigation__link(href='') 회원가입
+                        a.mdl-navigation__link(href='/user/signin') 회원가입
                         if(session.getAttribute("userid") != null)
                             a.mdl-navigation__link(href="/user/logout") 로그아웃
                         else
                             a.mdl-navigation__link(href="/user/login") 로그인
             .mdl-layout__drawer
-                span.mdl-layout-title Title
+                span.mdl-layout-title
+                    a(href='/', id='title') purplebeen's story
                 nav.mdl-navigation
                     a.mdl-navigation__link(href='/post/aboutme') About me
                     a.mdl-navigation__link(href='/post/write') Write
@@ -85,7 +90,7 @@ html
                 for post in postPage.getContent()
                     .page-content
                         .demo-card-wide.mdl-card.mdl-shadow--2dp
-                            .mdl-card__title(style="background: url('https://1yjmqg26uh9k15zq0o1pderc-wpengine.netdna-ssl.com/wp-content/uploads/2017/01/android-image.png') center / cover;")
+                            .mdl-card__title(style="background: url('#{post.getImageUrl()}') center / cover;")
                                 h2.mdl-card__title-text #{post.getTitle()}
                             .mdl-card__supporting-text
                                 | Posted by #{post.getAurthor()}

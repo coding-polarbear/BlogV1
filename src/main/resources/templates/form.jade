@@ -110,7 +110,7 @@ html(lang='ko')
 									select#category(name='categoryName')
 										each category in categoryList
 											option(id='#{category.getName()}', value='#{category.getName()}') #{category.getName()}
-
+								input.form-control(type='text', name='imageUrl', placeholder='이미지 url', style='margin-bottom:20px;')
 								button#submit.btn.btn-primary.pull-right(type='submit', name='submit') Submit Form
 								br
 								br

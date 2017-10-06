@@ -27,7 +27,7 @@ public class UploadRestController {
             String extension = originalFilename.substring(originalFilename.lastIndexOf(".")+1).toLowerCase();
 
 
-            String webappRoot = servletContext.getRealPath("resources/images");
+            String webappRoot = servletContext.getRealPath("resources/images/");
 
             File file = new File(webappRoot);
             if(!file.exists()) {
