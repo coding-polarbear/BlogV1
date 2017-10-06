@@ -1,135 +1,143 @@
 doctype html
-html(lang='ko')
+html
     head
         meta(charset='utf-8')
-        meta(http-equiv='X-UA-Compatible', content='IE=edge')
-        meta(name='viewport', content='width=device-width, initial-scale=1')
-        meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
-        title Hello Spring Blog
-        link(rel='stylesheet', href='/webjars/bootstrap/3.3.4/dist/css/bootstrap.min.css')
-        link(rel='stylesheet', href='/webjars/origoni-startbootstrap-clean-blog/1.0.3/css/clean-blog.min.css')
-        link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css')
-        script(src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js')
-        script.
-            hljs.initHighlightingOnLoad();
+        link(rel='stylesheet', href='https://fonts.googleapis.com/icon?family=Material+Icons')
+        link(rel='stylesheet', href='https://code.getmdl.io/1.3.0/material.indigo-pink.min.css')
+        script(defer='', src='https://code.getmdl.io/1.3.0/material.min.js')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0, minimum-scale=1.0')
+        title purplebeen's story
+        style.
+            .demo-layout-transparent .mdl-layout__header, .demo-layout-transparent .mdl-layout__drawer-button {
+                /* This background is dark, so we set text to white. Use 87% black instead if
+                your background is light. */
+                color: white;
+            }
 
-        script(src='/webjars/jquery/3.2.1/dist/jquery.min.js')
-        script(src='/webjars/bootstrap/3.3.4/dist/js/bootstrap.min.js')
-        style(media='screen').
+            .mdl-textfield__input {
+                width: calc(100% - 60px);
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+            }
+
+            .main_card {
+                margin: 10px;
+                padding: 30px;
+            }
+
+            .comment_card {
+                margin: 10px;
+                padding: 20px;
+            }
+
+            body {
+                background: #fafafa;
+                position: relative;
+            }
+
+            .table-header div.mdl-textfield {
+                width: calc(100% - 20px);
+                margin-bottom: 10px;
+            }
+
+            .demo-card-wide.mdl-card {
+                width: calc(100% - 20px);
+                margin-left: 20px;
+                margin-right: 20px
+            }
+
+            #submit {
+                width: 100px;
+            }
+
             @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
             * {
                 font-family: "Noto Sans KR", sans-serif;
             }
     body
-        script.
-            window.onload = function () {
-                $("img").addClass("img-responsive");
-            }
-        // Navigation
-        nav.navbar.navbar-default.navbar-custom.navbar-fixed-top
-            .container-fluid
-                // Brand and toggle get grouped for better mobile display
-                .navbar-header.page-scroll
-                    button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
-                        span.sr-only Toggle navigation
-                        span.icon-bar
-                        span.icon-bar
-                        span.icon-bar
-                    a.navbar-brand(href='/post/show/list') purplebeen's story
-                // Collect the nav links, forms, and other content for toggling
-                #bs-example-navbar-collapse-1.collapse.navbar-collapse
-                    ul.nav.navbar-nav.navbar-right
-                        li
-                            a(href='/post/show/list') Home
-                        li
-                            a(href='/post/write') Write
-                        li
-                            a(href='/user/resume') 회원가입
-                        li.dropdown(role='presentation')
-                            a.dropdown-toggle(data-toggle='dropdown', href='#', role='button', aria-haspopup='true', aria-expanded='false')
-                                | 카테고리
-                                span.caret
-                            ul.dropdown-menu(style='background:#000000')
-                                for category in categoryList
-                                    li
-                                        a(href='/category/#{category.getName()}') #{category.getName()}
+        .mdl-layout.mdl-js-layout.mdl-layout--fixed-header
+            header.mdl-layout__header
+                .mdl-layout__header-row
+                    // Title
+                    span.mdl-layout-title Polarbear의 개발블로그
+                    // Add spacer, to align navigation to the right
+                    .mdl-layout-spacer
+                    // Navigation. We hide it in small screens.
+                    nav.mdl-navigation.mdl-layout--large-screen-only
+                        a.mdl-navigation__link(href='') About me
+                        a.mdl-navigation__link(href='') Write
+                        a.mdl-navigation__link(href='') 회원가입
                         if(session.getAttribute("userid") != null)
-                            li
-                                a(href="/user/logout") 로그아웃
+                            a.mdl-navigation__link(href='/user/logout')  로그아웃
                         else
-                            li
-                                a(href="/user/login") 로그인
-                // /.navbar-collapse
-            // /.container
-        // Page Header
-        // Set your background image for this header on the line below.
-        header.intro-header(style="background-image: url('https://images2.alphacoders.com/698/698137.jpg')")
-            .container
-                .row
-                    .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
-                        .post-heading
-                            h1 #{post.getTitle()}
-                            span.meta
-                                | Posted by
-                                a(href='#') #{post.getAurthor()}
-                                |  on #{post.getRegDate()}
-        // Post Content
-        article
-            .container
-                .row
-                    .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
-                        !{post.getContent()}
-            if(session.getAttribute("userid") != null)
-                .pull-right
-                    a(href='/post/#{post.getUrl()}/edit')
-                        button.btn.btn-warning(type='button',style="margin-right:10px;") Edit
-                    a(href='/post/#{post.getUrl()}/delete')
-                        button.btn.btn-danger(type='button',style="margin-right:50px;") Delete
-
-            .container
-                .row
-                    .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
-                        if(post.getCommentList().size() > 0)
-                            for comment in post.getCommentList()
-                                div
-                                    hr(height='2px')
-                                    b #{comment.getName()}
-                                    p #{comment.getContent()}
+                            a.mdl-navigation__link(href="/user/login") 로그인
+            .mdl-layout__drawer
+                span.mdl-layout-title Title
+                nav.mdl-navigation
+                    a.mdl-navigation__link(href='/post/aboutme') About me
+                    a.mdl-navigation__link(href='/post/write') Write
+                    a.mdl-navigation__link(href='') 회원가입
+                    if(session.getAttribute("userid") != null)
+                        a.mdl-navigation__link(href="/user/logout") 로그아웃
+                    else
+                        a.mdl-navigation__link(href="/user/login") 로그인
+                    for category in categoryList
+                        a.mdl-navigation__link(href='/category/#{category.getName()}') #{category.getName()}
+            main.mdl-layout__content
+                .demo-container.mdl-grid
+                    .mdl-cell.mdl-cell--2-col.mdl-cell--hide-tablet.mdl-cell--hide-phone
+                    .demo-content.mdl-color--white.mdl-shadow--4dp.content.mdl-color-text--grey-800.mdl-cell.mdl-cell--8-col.main_card
+                        div
+                            h1(style='float:left')  #{post.getTitle()}
+                            br
+                            br
+                            br
+                            br
+                            br
+                            br
+                            br
+                        .demo-crumbs.mdl-color-text--grey-500
+                            | posted by
+                            a(href='#')  #{post.getAurthor()}
+                            |  on #{post.getRegDate()} in
+                            a(href='/category/#{post.getCategory().getName()}')  #{post.getCategory().getName()}
+                        br
                         if(session.getAttribute("userid") != null)
-                            hr(height='2px')
-                            form(action='/post/write/comment', method='post')
-                                input(type='hidden', name='postId', value='#{post.getId()}')
-                                .form-group
-                                    .col-sm-10
-                                        textarea#addComment.form-control(name='content', row='5')
-                                br
-                                br
-                                .form-group
-                                    .col-sm-10
-                                        br
-                                        button#submitComment.btn.btn-success.btn-circle.text-uppercase(type='submit')
-                                            span.glyphicon.glyphicon-send
-                                            |  Summit comment
-        // Footer
-        footer
-            .container
-                .row
-                    .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
-                        ul.list-inline.text-center
-                            li
-                                a(href='#')
-                                    span.fa-stack.fa-lg
-                                        i.fa.fa-circle.fa-stack-2x
-                                        i.fa.fa-twitter.fa-stack-1x.fa-inverse
-                            li
-                                a(href='#')
-                                    span.fa-stack.fa-lg
-                                        i.fa.fa-circle.fa-stack-2x
-                                        i.fa.fa-facebook.fa-stack-1x.fa-inverse
-                            li
-                                a(href='#')
-                                    span.fa-stack.fa-lg
-                                        i.fa.fa-circle.fa-stack-2x
-                                        i.fa.fa-github.fa-stack-1x.fa-inverse
-                        p.copyright.text-muted Copyright © purplebeen.ml 2017
+                            a(href='/post/#{post.getUrl()}/delete')
+                                button.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(style='float:right; margin:5px')
+                                    i.material-icons delete
+                            a(href='/post/#{post.getUrl()}/edit')
+                                button.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(style='float:right; margin:5px;')
+                                    i.material-icons edit
+                            br
+                            br
+                            br
+                            br
+                            br
+                            br
+                            br
+                        p
+                            !{post.getContent()}
+                    if(post.getCommentList().size() > 0)
+                        for comment in post.getCommentList()
+                            .mdl-cell.mdl-cell--2-col.mdl-cell--hide-tablet.mdl-cell--hide-phone
+                            .demo-content.mdl-color--white.mdl-shadow--4dp.content.mdl-color-text--grey-800.mdl-cell.mdl-cell--8-col.main_card
+                                h2.mdl-card__title-text #{comment.getName()}
+                                .mdl-card__supporting-text
+                                    p   #{comment.getContent()}
 
+                if(session.getAttribute("userid") != null)
+                    // 댓글 입력
+                    .demo-container.mdl-grid
+                        .mdl-cell.mdl-cell--2-col.mdl-cell--hide-tablet.mdl-cell--hide-phone
+                        .demo-content.mdl-color--white.mdl-shadow--4dp.content.mdl-color-text--grey-800.mdl-cell.mdl-cell--8-col.main_card.table-header
+                            h4 댓글을 입력하세요
+                            form(action='/post/write/comment', method='post')
+                                .mdl-textfield.mdl-js-textfield
+                                    textarea#comments.mdl-textfield__input(type='text', rows='5', name='content')
+                                    input(type='hidden', name='postId', value='#{post.getId()}')
+                                    label.mdl-textfield__label(for='comments') 댓글을 입력하세요
+                                button#submit.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(type='submit')
+                                    | 보내기
